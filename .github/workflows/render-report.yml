@@ -1,12 +1,49 @@
+# Fayl nomi: .github/workflows/render-report.yml
+
 name: Har Soatda Hisobotni Yangilash
 
 on:
   schedule:
+    # Har soatning 15-daqiqasida ishga tushadi (o'zgartirishingiz mumkin)
     - cron: '15 * * * *'
+  # Qo'lda ishga tushirish uchun "Actions" bo'limiga tugma qo'shadi
+  workflow_dispatch:
 
 jobs:
   render-and-commit:
     runs-on: ubuntu-latest
     steps:
+      # 1. Repozitoriy kodini virtual mashinaga yuklab oladi
       - name: Repozitoriy kodini olish
         uses: actions/checkout@v4
+
+      # 2. R muhitini sozlash
+      - name: R muhitini o'rnatish
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'latest'
+
+      # 3. Quarto muhitini sozlash
+      - name: Quarto muhitini o'rnatish
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      # 4. Kerakli R paketlarini o'rnatish
+      # Sizning ikkala faylingiz uchun kerak bo'ladigan barcha paketlar
+      - name: R paketlarini o'rnatish
+        run: |
+          install.packages(c('httr', 'jsonlite', 'quarto', 'tidyverse', 'readxl', 'gt'))
+
+      # 5. Render skriptini ishga tushirish
+      - name: Hisobotni render qilish (update_report.R)
+        run: Rscript update_report.R
+        env:
+          # Bu yerda GitHub Secrets'dagi tokenni skriptga beramiz
+          KOBO_TOKEN: ${{ secrets.KOBO_TOKEN }}
+
+      # 6. Yangilangan fayllarni avtomatik commit qilish va push qilish
+      - name: O'zgarishlarni commit qilish
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 Hisobot avtomatik yangilandi"
+          # Qaysi fayllar o'zgarganini aniqlab, faqat shularni commit qiladi
+          file_pattern: report.html kobo_data.rds
