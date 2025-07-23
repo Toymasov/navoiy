@@ -4,9 +4,10 @@ name: Har Soatda Hisobotni Yangilash
 
 on:
   schedule:
-    # Har soatning 15-daqiqasida ishga tushadi (o'zgartirishingiz mumkin)
-    - cron: '15 * * * *'
-  # Qo'lda ishga tushirish uchun "Actions" bo'limiga tugma qo'shadi
+    # Bu jadval bo'yicha avtomatik ishga tushiradi
+    - cron: '*/10 * * * *'
+  
+  # BU QATOR SIZ SO'RAGAN TUGMANI YARATADI
   workflow_dispatch:
 
 jobs:
