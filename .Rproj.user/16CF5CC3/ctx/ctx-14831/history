@@ -1,0 +1,512 @@
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response, "API'dan ma'lumot olishda xatolik")
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+# Jadvallarni ajratish
+household_raw <- kobo_data
+household_raw[[child_table_name]] <- NULL
+hh_members_raw <- kobo_data %>%
+select(`_uuid`, all_of(child_table_name)) %>%
+unnest(all_of(child_table_name), names_sep = "/")
+rm(list = ls())
+# Kerakli paketlarni chaqiramiz library(tidyverse) library(httr) library(jsonlite)f library(readxl) library(gt)
+#--- LOYIHA SOZLAMALARI ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+#--- 1. MA'LUMOTLARNI YUKLASH ---
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+usethis::edit_r_environ()
+rm(list = ls())
+# Kerakli paketlarni chaqiramiz library(tidyverse) library(httr) library(jsonlite)f library(readxl) library(gt)
+#--- LOYIHA SOZLAMALARI ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+#--- 1. MA'LUMOTLARNI YUKLASH ---
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+rm(list = ls())
+# Kerakli paketlarni chaqiramiz library(tidyverse) library(httr) library(jsonlite)f library(readxl) library(gt)
+# Kerakli barcha paketlarni chaqiramiz
+library(tidyverse)
+library(httr) # <--- Mana shu qator GET() funksiyasini yuklaydi
+library(jsonlite)
+library(readxl)
+library(gt)
+#--- LOYIHA SOZLAMALARI ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+#--- 1. MA'LUMOTLARNI YUKLASH ---
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response)
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+#--- 2. JADAVLLARNI AJRATISH ---
+household_raw <- kobo_data %>% select(-all_of(child_table_name))
+rm(list = ls())
+library(tidyverse)
+library(httr) # <--- Mana shu qator GET() funksiyasini yuklaydi
+library(jsonlite)
+library(readxl)
+library(gt)
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response)
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+household_raw <- kobo_data %>% select(-all_of(child_table_name))
+rm(list = ls())
+# --- BU KOD FAQAT NOMLARNI OLISH UCHUN BIR MARTA ISHLATILADI ---
+library(httr)
+library(jsonlite)
+library(tidyverse)
+# --- O'ZGARTIRILADIGAN QISM ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+# --- O'ZGARTIRILADIGAN QISM TUGADI ---
+# API token'ni muhitdan o'qish
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+if (kobo_token == "") {
+stop("API Token topilmadi! .Renviron faylini tekshiring va RStudio'ni qayta ishga tushiring.")
+}
+# API'dan ma'lumotlarni yuklash (ichki jadvallarni saqlagan holda)
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response, "API'dan ma'lumot olishda xatolik")
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+# Jadvallarni ajratish
+household_raw <- kobo_data
+household_raw[[child_table_name]] <- NULL
+hh_members_raw <- kobo_data %>%
+select(`_uuid`, all_of(child_table_name)) %>%
+unnest(all_of(child_table_name), names_sep = "/")
+rm(list = ls())
+# --- BU KOD FAQAT NOMLARNI OLISH UCHUN BIR MARTA ISHLATILADI ---
+library(httr)
+library(jsonlite)
+library(tidyverse)
+# --- O'ZGARTIRILADIGAN QISM ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+# --- O'ZGARTIRILADIGAN QISM TUGADI ---
+# API token'ni muhitdan o'qish
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+if (kobo_token == "") {
+stop("API Token topilmadi! .Renviron faylini tekshiring va RStudio'ni qayta ishga tushiring.")
+}
+# API'dan ma'lumotlarni yuklash (ichki jadvallarni saqlagan holda)
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response, "API'dan ma'lumot olishda xatolik")
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+# Jadvallarni ajratish
+household_raw <- kobo_data
+household_raw[[child_table_name]] <- NULL
+hh_members_raw <- kobo_data %>%
+select(`_uuid`, all_of(child_table_name)) %>%
+unnest(all_of(child_table_name), names_sep = "/")
+hh_members_raw <- kobo_data %>%
+select(`uuid`, all_of(child_table_name)) %>%
+unnest(all_of(child_table_name), names_sep = "/")
+rm(list = ls())
+# Kerakli paketlarni chaqiramiz library(tidyverse) library(httr) library(jsonlite)f library(readxl) library(gt)
+# Kerakli barcha paketlarni chaqiramiz
+library(tidyverse)
+library(httr) # <--- Mana shu qator GET() funksiyasini yuklaydi
+library(jsonlite)
+library(readxl)
+library(gt)
+#--- LOYIHA SOZLAMALARI ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+#--- 1. MA'LUMOTLARNI YUKLASH ---
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response)
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+#--- 2. JADAVLLARNI AJRATISH ---
+household_raw <- kobo_data %>% select(-all_of(child_table_name))
+rm(list = ls())
+# Kerakli paketlarni chaqiramiz library(tidyverse) library(httr) library(jsonlite)f library(readxl) library(gt)
+# Kerakli barcha paketlarni chaqiramiz
+library(tidyverse)
+library(httr) # <--- Mana shu qator GET() funksiyasini yuklaydi
+library(jsonlite)
+library(readxl)
+library(gt)
+#--- LOYIHA SOZLAMALARI ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+#--- 1. MA'LUMOTLARNI YUKLASH ---
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response)
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+#--- 2. JADAVLLARNI AJRATISH ---
+household_raw <- kobo_data %>% select(-all_of(child_table_name))
+rm(list = ls())
+# Kerakli paketlarni chaqiramiz library(tidyverse) library(httr) library(jsonlite)f library(readxl) library(gt)
+# Kerakli barcha paketlarni chaqiramiz
+library(tidyverse)
+library(httr) # <--- Mana shu qator GET() funksiyasini yuklaydi
+library(jsonlite)
+library(readxl)
+library(gt)
+#--- LOYIHA SOZLAMALARI ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+#--- 1. MA'LUMOTLARNI YUKLASH ---
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response)
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+#--- 2. JADAVLLARNI AJRATISH ---
+household_raw <- kobo_data %>% select(-all_of(child_table_name))
+View(kobo_data)
+View(response)
+View(kobo_data)
+View(kobo_data)
+rm(list = ls())
+# Kerakli paketlarni chaqiramiz library(tidyverse) library(httr) library(jsonlite)f library(readxl) library(gt)
+# Kerakli barcha paketlarni chaqiramiz
+library(tidyverse)
+library(httr) # <--- Mana shu qator GET() funksiyasini yuklaydi
+library(jsonlite)
+library(readxl)
+library(gt)
+#--- LOYIHA SOZLAMALARI ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_members" # XLSForm dagi takrorlanuvchi guruh nomi
+#--- 1. MA'LUMOTLARNI YUKLASH ---
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response)
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+#--- 2. JADAVLLARNI AJRATISH ---
+household_raw <- kobo_data %>% select(-all_of(child_table_name))
+print(child_table_name)
+rm(list = ls())
+# Kerakli paketlarni chaqiramiz library(tidyverse) library(httr) library(jsonlite)f library(readxl) library(gt)
+# Kerakli barcha paketlarni chaqiramiz
+library(tidyverse)
+library(httr) # <--- Mana shu qator GET() funksiyasini yuklaydi
+library(jsonlite)
+library(readxl)
+library(gt)
+#--- LOYIHA SOZLAMALARI ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_members" # XLSForm dagi takrorlanuvchi guruh nomi
+#--- 1. MA'LUMOTLARNI YUKLASH ---
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response)
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+#--- 2. JADAVLLARNI AJRATISH ---
+household_raw <- kobo_data %>% select(-all_of(child_table_name))
+rm(list = ls())
+# --- BU KOD FAQAT NOMLARNI OLISH UCHUN BIR MARTA ISHLATILADI ---
+library(httr)
+library(jsonlite)
+library(tidyverse)
+# --- O'ZGARTIRILADIGAN QISM ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+# --- O'ZGARTIRILADIGAN QISM TUGADI ---
+# API token'ni muhitdan o'qish
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+if (kobo_token == "") {
+stop("API Token topilmadi! .Renviron faylini tekshiring va RStudio'ni qayta ishga tushiring.")
+}
+# API'dan ma'lumotlarni yuklash (ichki jadvallarni saqlagan holda)
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response, "API'dan ma'lumot olishda xatolik")
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+# Jadvallarni ajratish
+household_raw <- kobo_data
+household_raw[[child_table_name]] <- NULL
+hh_members_raw <- kobo_data %>%
+select(`_uuid`, all_of(child_table_name)) %>%
+unnest(all_of(child_table_name), names_sep = "/")
+# Har bir jadvalning ustun nomlarini alohida CSV fayllarga yozish
+write.csv(data.frame(eski_nom = names(household_raw)), "household_nomlari.csv", row.names = FALSE)
+write.csv(data.frame(eski_nom = names(hh_members_raw)), "hh_members_nomlari.csv", row.names = FALSE)
+print("Nomlar muvaffaqiyatli 'household_nomlari.csv' va 'hh_members_nomlari.csv' fayllariga yozildi!")
+rm(list = ls())
+# Kerakli paketlarni chaqiramiz library(tidyverse) library(httr) library(jsonlite)f library(readxl) library(gt)
+# Kerakli barcha paketlarni chaqiramiz
+library(tidyverse)
+library(httr) # <--- Mana shu qator GET() funksiyasini yuklaydi
+library(jsonlite)
+library(readxl)
+library(gt)
+#--- LOYIHA SOZLAMALARI ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_members" # XLSForm dagi takrorlanuvchi guruh nomi
+#--- 1. MA'LUMOTLARNI YUKLASH ---
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response)
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+#--- 2. JADAVLLARNI AJRATISH ---
+household_raw <- kobo_data %>% select(-all_of(child_table_name))
+# API token'ni muhitdan o'qish
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+rm(list = ls())
+# --- BU KOD FAQAT NOMLARNI OLISH UCHUN BIR MARTA ISHLATILADI ---
+library(httr)
+library(jsonlite)
+library(tidyverse)
+# --- O'ZGARTIRILADIGAN QISM ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+# --- O'ZGARTIRILADIGAN QISM TUGADI ---
+# API token'ni muhitdan o'qish
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+if (kobo_token == "") {
+stop("API Token topilmadi! .Renviron faylini tekshiring va RStudio'ni qayta ishga tushiring.")
+}
+# API'dan ma'lumotlarni yuklash (ichki jadvallarni saqlagan holda)
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response, "API'dan ma'lumot olishda xatolik")
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+# Jadvallarni ajratish
+household_raw <- kobo_data
+household_raw[[child_table_name]] <- NULL
+hh_members_raw <- kobo_data %>%
+select(`_uuid`, all_of(child_table_name)) %>%
+unnest(all_of(child_table_name), names_sep = "/")
+# Har bir jadvalning ustun nomlarini alohida CSV fayllarga yozish
+write.csv(data.frame(eski_nom = names(household_raw)), "household_nomlari.csv", row.names = FALSE)
+write.csv(data.frame(eski_nom = names(hh_members_raw)), "hh_members_nomlari.csv", row.names = FALSE)
+print("Nomlar muvaffaqiyatli 'household_nomlari.csv' va 'hh_members_nomlari.csv' fayllariga yozildi!")
+View(hh_members_raw)
+View(household_raw)
+rm(list = ls())
+# Kerakli paketlarni chaqiramiz library(tidyverse) library(httr) library(jsonlite)f library(readxl) library(gt)
+# Kerakli barcha paketlarni chaqiramiz
+library(tidyverse)
+library(httr) # <--- Mana shu qator GET() funksiyasini yuklaydi
+library(jsonlite)
+library(readxl)
+library(gt)
+#--- LOYIHA SOZLAMALARI ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+#--- 1. MA'LUMOTLARNI YUKLASH ---
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response)
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+#--- 2. JADAVLLARNI AJRATISH ---
+household_raw <- kobo_data %>% select(-all_of(child_table_name))
+temp_for_unnest <- kobo_data[c("_uuid", child_table_name)]
+hh_members_raw <- temp_for_unnest %>%
+unnest(all_of(child_table_name), names_sep = "/")
+# --- 3. NOMLARNI LUG'ATLAR YORDAMIDA O'ZGARTIRISH ---
+dict_household <- read_excel("nomlar_lugati_household.xlsx") %>% filter(!is.na(yangi_nom))
+rename_vec_hh <- setNames(dict_household$eski_nom, dict_household$yangi_nom)
+household_clean <- household_raw %>% rename(any_of(rename_vec_hh))
+dict_hh_members <- read_excel("nomlar_lugati_hh_members.xlsx") %>% filter(!is.na(yangi_nom))
+rename_vec_members <- setNames(dict_hh_members$eski_nom, dict_hh_members$yangi_nom)
+hh_members_clean <- hh_members_raw %>% rename(any_of(rename_vec_members))
+1 + 1
+#| echo: false
+2 * 2
+View(dict_household)
+View(dict_hh_members)
+library(gt) # Chiroyli jadvallar uchun
+View(household_clean)
+View(household_raw)
+View(household_clean)
+household_clean %>%
+count(district, sort = TRUE, name = "Уй хўжаликлари сони") %>%
+gt() %>%
+tab_header(
+title = "Вилоятлар кесимида сўровда қатнашган уй хўжаликлари сони"
+) %>%
+cols_align(align = "center")
+household_clean <- household_clean %>%
+mutate(вилоят_номи = case_when(
+district == 1  ~ "Конимех тумани",
+district == 2  ~ "Қизилтепа тумани",
+district == 3  ~ "Навбаҳор тумани",
+district == 4  ~ "Кармана тумани",
+district == 5  ~ "Нурота тумани",
+district == 6  ~ "Томди тумани",
+district == 7  ~ "Учқудуқ тумани",
+district == 8  ~ "Хатирчи тумани",
+district == 9  ~ "Навоий шаҳри",
+district == 10  ~ "Зарафшон шаҳри",
+district == 11  ~ "Ғозғон шаҳри"
+# ... qolgan barcha viloyatlar uchun shu tarzda yozib chiqing
+# Agar ro'yxatda yo'q kod uchrasa, uni o'zini yozib qo'yish uchun
+# .default argumenti juda muhim, aks holda ular NA (bo'sh) bo'lib qoladi
+.default = as.character(district)
+household_clean <- household_clean %>%
+mutate(вилоят_номи = case_when(
+district == 1  ~ "Конимех тумани",
+district == 2  ~ "Қизилтепа тумани",
+district == 3  ~ "Навбаҳор тумани",
+district == 4  ~ "Кармана тумани",
+district == 5  ~ "Нурота тумани",
+district == 6  ~ "Томди тумани",
+district == 7  ~ "Учқудуқ тумани",
+district == 8  ~ "Хатирчи тумани",
+district == 9  ~ "Навоий шаҳри",
+district == 10  ~ "Зарафшон шаҳри",
+district == 11  ~ "Ғозғон шаҳри",
+# ... qolgan barcha viloyatlar uchun shu tarzda yozib chiqing
+# Agar ro'yxatda yo'q kod uchrasa, uni o'zini yozib qo'yish uchun
+# .default argumenti juda muhim, aks holda ular NA (bo'sh) bo'lib qoladi
+.default = as.character(district)
+))
+household_clean %>%
+count(district, sort = TRUE, name = "Уй хўжаликлари сони") %>%
+gt() %>%
+tab_header(
+title = "Туманлар кесимида сўровда қатнашган уй хўжаликлари сони"
+) %>%
+cols_align(align = "center")
+household_clean <- household_clean %>%
+mutate(district_name = case_when(
+district == 1  ~ "Конимех тумани",
+district == 2  ~ "Қизилтепа тумани",
+district == 3  ~ "Навбаҳор тумани",
+district == 4  ~ "Кармана тумани",
+district == 5  ~ "Нурота тумани",
+district == 6  ~ "Томди тумани",
+district == 7  ~ "Учқудуқ тумани",
+district == 8  ~ "Хатирчи тумани",
+district == 9  ~ "Навоий шаҳри",
+district == 10  ~ "Зарафшон шаҳри",
+district == 11  ~ "Ғозғон шаҳри",
+# ... qolgan barcha viloyatlar uchun shu tarzda yozib chiqing
+# Agar ro'yxatda yo'q kod uchrasa, uni o'zini yozib qo'yish uchun
+# .default argumenti juda muhim, aks holda ular NA (bo'sh) bo'lib qoladi
+.default = as.character(district)
+))
+household_clean %>%
+count(district_name, sort = TRUE, name = "Уй хўжаликлари сони") %>%
+gt() %>%
+tab_header(
+title = "Туманлар кесимида сўровда қатнашган уй хўжаликлари сони"
+) %>%
+cols_align(align = "center")
+View(household_clean)
+household_clean_with_names %>%
+filter(!is.na(district_name)) %>% # NA qiymatlarni filtrlaymiz
+ggplot(aes(y = fct_rev(fct_infreq(district_name)), fill = district_name)) +
+geom_bar(show.legend = FALSE) + # Ustunlarni chizamiz va legenda (ranglar izohi)ni yashiramiz
+# Har bir ustunning ustiga uning qiymatini (sonini) yozamiz
+geom_text(
+stat = 'count',
+aes(label = after_stat(count)),
+hjust = -0.2, # Matnni ustundan biroz o'ngga surish
+size = 3.5
+) +
+# Grafik sarlavhalari va o'q nomlarini kiritamiz
+labs(
+title = "Вилоятлар кесимида сўровда қатнашган уй хўжаликлари",
+subtitle = "Ma'lumotlar soni bo'yicha saralangan",
+x = "Уй хўжаликлари сони",
+y = "Вилоят"
+) +
+# Orqa fonni va umumiy ko'rinishni chiroyli qilamiz
+theme_minimal(base_size = 14)
+household_clean %>%
+filter(!is.na(district_name)) %>% # NA qiymatlarni filtrlaymiz
+ggplot(aes(y = fct_rev(fct_infreq(district_name)), fill = district_name)) +
+geom_bar(show.legend = FALSE) + # Ustunlarni chizamiz va legenda (ranglar izohi)ni yashiramiz
+# Har bir ustunning ustiga uning qiymatini (sonini) yozamiz
+geom_text(
+stat = 'count',
+aes(label = after_stat(count)),
+hjust = -0.2, # Matnni ustundan biroz o'ngga surish
+size = 3.5
+) +
+# Grafik sarlavhalari va o'q nomlarini kiritamiz
+labs(
+title = "Вилоятлар кесимида сўровда қатнашган уй хўжаликлари",
+subtitle = "Ma'lumotlar soni bo'yicha saralangan",
+x = "Уй хўжаликлари сони",
+y = "Вилоят"
+) +
+# Orqa fonni va umumiy ko'rinishni chiroyli qilamiz
+theme_minimal(base_size = 14)
+rm(list = ls())
+# Kerakli paketlarni chaqiramiz library(tidyverse) library(httr) library(jsonlite)f library(readxl) library(gt)
+# Kerakli barcha paketlarni chaqiramiz
+library(tidyverse)
+library(httr) # <--- Mana shu qator GET() funksiyasini yuklaydi
+library(jsonlite)
+library(readxl)
+library(gt)
+#--- LOYIHA SOZLAMALARI ---
+asset_uid <- "aNaY8Pr5dLFox6Ebctkk2b"
+child_table_name <- "hh_member" # XLSForm dagi takrorlanuvchi guruh nomi
+#--- 1. MA'LUMOTLARNI YUKLASH ---
+kobo_token <- Sys.getenv("KOBO_TOKEN")
+api_url <- paste0("https://kf.kobotoolbox.org/api/v2/assets/", asset_uid, "/data.json")
+response <- GET(url = api_url, add_headers(Authorization = paste("Token", kobo_token)))
+stop_for_status(response)
+kobo_data <- fromJSON(content(response, "text", encoding = "UTF-8"), flatten = FALSE)$results
+#--- 2. JADAVLLARNI AJRATISH ---
+household_raw <- kobo_data %>% select(-all_of(child_table_name))
+temp_for_unnest <- kobo_data[c("_uuid", child_table_name)]
+hh_members_raw <- temp_for_unnest %>%
+unnest(all_of(child_table_name), names_sep = "/")
+# --- 3. NOMLARNI LUG'ATLAR YORDAMIDA O'ZGARTIRISH ---
+dict_household <- read_excel("nomlar_lugati_household.xlsx") %>% filter(!is.na(yangi_nom))
+rename_vec_hh <- setNames(dict_household$eski_nom, dict_household$yangi_nom)
+household_clean <- household_raw %>% rename(any_of(rename_vec_hh))
+dict_hh_members <- read_excel("nomlar_lugati_hh_members.xlsx") %>% filter(!is.na(yangi_nom))
+rename_vec_members <- setNames(dict_hh_members$eski_nom, dict_hh_members$yangi_nom)
+hh_members_clean <- hh_members_raw %>% rename(any_of(rename_vec_members))
+library(gt) # Chiroyli jadvallar uchun
+household_clean <- household_clean %>%
+mutate(
+(district_name = case_when(
+district == 1  ~ "Конимех тумани",
+district == 2  ~ "Қизилтепа тумани",
+district == 3  ~ "Навбаҳор тумани",
+district == 4  ~ "Кармана тумани",
+district == 5  ~ "Нурота тумани",
+district == 6  ~ "Томди тумани",
+district == 7  ~ "Учқудуқ тумани",
+district == 8  ~ "Хатирчи тумани",
+district == 9  ~ "Навоий шаҳри",
+district == 10  ~ "Зарафшон шаҳри",
+district == 11  ~ "Ғозғон шаҳри",
+# ... qolgan barcha viloyatlar uchun shu tarzda yozib chiqing
+# Agar ro'yxatda yo'q kod uchrasa, uni o'zini yozib qo'yish uchun
+# .default argumenti juda muhim, aks holda ular NA (bo'sh) bo'lib qoladi
+.default = as.character(district)))
+(aholi_punkti = case_when(
+punkt == 1 ~ "Shahar",
+punkt == 2 ~ "Qishloq"
+))
+(sozlashuv_tili = case_when(
+family_language == '_' ~ "Ўзбек",
+family_language == '__1' ~ "Тожик",
+family_language == '__2' ~ "Қозоқ",
+family_language == '__3' ~ "Қирғиз",
+family_language == '__4' ~ "Қорақалпоқ",
+family_language == '__5' ~ "Рус",
+family_language == '__6' ~ "Бошқа",
+))
+)
+View(household_clean)

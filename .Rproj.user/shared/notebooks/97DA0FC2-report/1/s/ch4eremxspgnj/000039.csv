@@ -1,0 +1,50 @@
+"0","install.packages(""sf"")
+"
+"1","The following package(s) will be installed:
+"
+"1","- classInt [0.4-11]
+"
+"1","- e1071    [1.7-16]
+"
+"1","- proxy    [0.4-27]
+"
+"1","- s2       [1.1.9]
+"
+"1","- sf       [1.0-21]
+"
+"1","- units    [0.8-7]
+"
+"1","- wk       [0.9.4]
+"
+"1","These packages will be installed into ""D:/Projects/Navoiy/Navoiy_kobo/renv/library/windows/R-4.4/x86_64-w64-mingw32"".
+"
+"1","
+"
+"0","y"
+"1","
+"
+"1","# Installing packages --------------------------------------------------------
+"
+"1","- Installing proxy ...                          "
+"1","OK [copied from cache in 0.24s]
+"
+"1","- Installing e1071 ...                          "
+"1","OK [copied from cache in 0.24s]
+"
+"1","- Installing classInt ...                       "
+"1","OK [copied from cache in 0.24s]
+"
+"1","- Installing wk ...                             "
+"1","OK [copied from cache in 0.25s]
+"
+"1","- Installing s2 ...                             "
+"1","OK [copied from cache in 0.24s]
+"
+"1","- Installing units ...                          "
+"1","OK [copied from cache in 0.24s]
+"
+"1","- Installing sf ...                             "
+"1","OK [copied from cache in 0.73s]
+"
+"1","Successfully installed 7 packages in 2.3 seconds.
+"

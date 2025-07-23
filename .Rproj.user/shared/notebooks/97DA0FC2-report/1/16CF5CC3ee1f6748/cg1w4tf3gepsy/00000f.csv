@@ -1,0 +1,17 @@
+"0","rm(list = ls())
+# Kerakli paketlarni chaqiramiz library(tidyverse) library(httr) library(jsonlite)f library(readxl) library(gt)
+
+#--- LOYIHA SOZLAMALARI ---
+
+asset_uid <- ""aNaY8Pr5dLFox6Ebctkk2b"" 
+child_table_name <- ""hh_member"" # XLSForm dagi takrorlanuvchi guruh nomi
+
+#--- 1. MA'LUMOTLARNI YUKLASH ---
+
+kobo_token <- Sys.getenv(""KOBO_TOKEN"") 
+api_url <- paste0(""https://kf.kobotoolbox.org/api/v2/assets/"", asset_uid, ""/data.json"") 
+response <- GET(url = api_url, add_headers(Authorization = paste(""Token"", kobo_token))) 
+"
+"2","Error in GET(url = api_url, add_headers(Authorization = paste(""Token"",  : 
+  could not find function ""GET""
+"
