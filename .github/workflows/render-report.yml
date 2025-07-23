@@ -1,0 +1,12 @@
+name: Har Soatda Hisobotni Yangilash
+
+on:
+  schedule:
+    - cron: '15 * * * *'
+
+jobs:
+  render-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repozitoriy kodini olish
+        uses: actions/checkout@v4
