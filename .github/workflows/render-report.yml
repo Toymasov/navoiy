@@ -13,6 +13,8 @@ on:
 jobs:
   render-and-commit:
     runs-on: ubuntu-latest
+    permissions:      # <--- MANA SHU BLOK QO'SHILADI
+      contents: write   # <--- Repozitoriyga yozish huquqini beradi
     steps:
       # 1. Repozitoriy kodini virtual mashinaga yuklab oladi
       - name: Repozitoriy kodini olish
@@ -46,4 +48,4 @@ jobs:
         with:
           commit_message: "🤖 Hisobot avtomatik yangilandi"
           # Qaysi fayllar o'zgarganini aniqlab, faqat shularni commit qiladi
-          file_pattern: report.html kobo_data.rds
+          file_pattern: report.html kobo_data.rds report_files/
