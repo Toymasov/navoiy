@@ -31,8 +31,7 @@ jobs:
       # 4. Kerakli R paketlarini o'rnatish
       # Sizning ikkala faylingiz uchun kerak bo'ladigan barcha paketlar
       - name: R paketlarini o'rnatish
-        run: |
-          install.packages(c('httr', 'jsonlite', 'quarto', 'tidyverse', 'readxl', 'gt'))
+        run: Rscript -e "install.packages(c('httr', 'jsonlite', 'quarto', 'tidyverse', 'readxl', 'gt'))"
 
       # 5. Render skriptini ishga tushirish
       - name: Hisobotni render qilish (update_report.R)
