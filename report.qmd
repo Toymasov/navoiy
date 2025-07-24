@@ -90,6 +90,53 @@ household_clean <- household_clean %>%
     ) # <-- Eng oxirgi ustundan keyin vergul shart emas
   )
 
+daily_submissions <- household_clean %>%
+  
+  # `submission_time` ustuni sana va vaqtni o'z ichiga oladi.
+  # Bizga faqat sana qismi kerak, shuning uchun as.Date() funksiyasidan foydalanamiz.
+  mutate(topshirilgan_sana = as.Date(`_submission_time`)) %>%
+  
+  # Har bir sana bo'yicha qatorlar sonini (ya'ni so'rovnomalar sonini) sanaymiz
+  count(topshirilgan_sana, name = "sorovnomalar_soni") %>%
+  
+  # Natijani sana bo'yicha tartiblaymiz
+  arrange(topshirilgan_sana)
+
+# 2-qadam: Grafikni chizamiz
+ggplot(daily_submissions, aes(x = topshirilgan_sana, y = sorovnomalar_soni)) +
+  
+  # Ustunli diagramma (bar chart). `geom_col` oldindan hisoblangan qiymatlar uchun ishlatiladi.
+  geom_col(fill = "#659965", width = 0.7) +
+  
+  # Har bir ustunning ustiga aniq sonini yozib qo'yish (ixtiyoriy)
+  geom_text(
+    aes(label = sorovnomalar_soni),
+    vjust = -0.5, # Matnni ustundan biroz yuqoriga chiqarish
+    color = "black",
+    size = 3.5
+  ) +
+  
+  # Trendni yaxshiroq ko'rsatish uchun chiziq va nuqtalarni qo'shamiz (ixtiyoriy)
+  geom_line(color = "#E67E22", linewidth = 1) +
+  geom_point(color = "#E67E22", size = 2) +
+  
+  # Sana o'qini (x-axis) chiroyli formatlaymiz
+  # Agar sanalar ko'p bo'lsa, `date_breaks = "2 days"` yoki `"1 week"` qilib o'zgartirishingiz mumkin
+  scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
+  
+  # Sarlavhalar
+  labs(
+    title = "Kunlik Topshirilgan So'rovnomalar Dinamikasi",
+    x = "Sana",
+    y = "Topshirilgan so'rovnomalar soni"
+  ) +
+  
+  # Orqa fon va umumiy ko'rinish
+  theme_minimal(base_size = 14) +
+  
+  # Agar sana yozuvlari bir-biriga kirishib ketsa, ularni 45 darajaga qiyalashtiramiz
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 
 household_clean %>%
   count(district_name, sort = TRUE, name = "Уй хўжаликлари сони") %>%

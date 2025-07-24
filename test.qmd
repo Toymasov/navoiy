@@ -1,0 +1,167 @@
+---
+title: "r2"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#install.packages(c("crosstalk", "plotly", "DT", "bslib"))
+#install.packages('sf')
+#install.packages('bsicons')
+#install.packages('shiny')
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(readxl)
+library(gt)
+library(lubridate)
+library(sf)
+library(crosstalk)
+library(plotly)
+library(DT)
+library(bslib)
+library(htmltools)
+library(bsicons)
+library(shiny)
+```
+
+You can add options to executable code like this
+
+```{r}
+# --- MA'LUMOTLARNI TAYYORLASH (FAQAT BIR MARTA ISHLAYDI) ---
+
+# Ma'lumotlarni oldindan saqlangan fayldan o'qish
+kobo_data <- readRDS("kobo_data.rds")
+child_table_name <- "hh_member"
+
+# Jadvallarni ajratish
+household_raw <- kobo_data
+household_raw[[child_table_name]] <- NULL 
+temp_for_unnest <- kobo_data[c("_uuid", child_table_name)]
+hh_members_raw <- temp_for_unnest %>% unnest(all_of(child_table_name), names_sep = "/")
+
+# Nomlarni o'zgartirish
+dict_household <- read_excel("nomlar_lugati_household.xlsx") %>% filter(!is.na(yangi_nom))
+rename_vec_hh <- setNames(dict_household$eski_nom, dict_household$yangi_nom)
+household_clean <- household_raw %>% rename(any_of(rename_vec_hh))
+
+# ... hh_members uchun ham nomlarni o'zgartirish kerak bo'lsa, shu yerga qo'shing ...
+
+# Yangi ustunlarni yaratish (recode)
+household_clean <- household_clean %>%
+  mutate(
+    туман = case_when(
+      district == 1  ~ "Конимех тумани", district == 2  ~ "Қизилтепа тумани",
+      district == 3  ~ "Навбаҳор тумани", district == 4  ~ "Кармана тумани",
+      district == 5  ~ "Нурота тумани", district == 6  ~ "Томди тумани",
+      district == 7  ~ "Учқудуқ тумани", district == 8  ~ "Хатирчи тумани",
+      district == 9  ~ "Навоий шаҳри", district == 10  ~ "Зарафшон шаҳри",
+      district == 11  ~ "Ғозғон шаҳри", .default = "Номаълум"
+    )
+  )
+
+# Vaqtni hisoblash va yakuniy jadvalni yaratish
+household_final <- household_clean %>%
+  mutate(
+    sana = as.Date(`_submission_time`),
+    start_time = ymd_hms(start),
+    end_time = ymd_hms(end),
+    duration_minutes = as.numeric(difftime(end_time, start_time, units = "mins"))
+  ) %>%
+  filter(duration_minutes >= 1 & duration_minutes <= 180, !is.na(sana))
+
+
+# --- INTERAKTIV MANTIQ (SERVER QISMI) ---
+
+# 1. Reaktiv filtr yaratish
+filtered_data <- reactive({
+  # Foydalanuvchi tanlagan tuman va sanani olamiz
+  tanlangan_tuman <- input$tuman_filter
+  boshlanish_sana <- input$sana_filter[1]
+  tugash_sana <- input$sana_filter[2]
+
+  # Asosiy ma'lumotlarni filtrlaymiz
+  data_to_filter <- household_final %>%
+    filter(sana >= boshlanish_sana & sana <= tugash_sana)
+  
+  # Agar "Barcha tumanlar" tanlanmagan bo'lsa, tuman bo'yicha ham filtrlaymiz
+  if (tanlangan_tuman != "Barcha tumanlar") {
+    data_to_filter <- data_to_filter %>% filter(туман == tanlangan_tuman)
+  }
+  
+  data_to_filter
+})
+
+# 2. Qiymat kartalari (value box) uchun renderlar
+renderValueBox({
+  value_box(
+    title = "Tanlangan so'rovnomalar soni",
+    value = nrow(filtered_data()),
+    showcase = bs_icon("bar-chart-line-fill"), theme = "primary"
+  )
+})
+
+renderValueBox({
+  avg_dur <- filtered_data() %>%
+    summarise(avg = mean(duration_minutes, na.rm = TRUE)) %>%
+    pull(avg)
+  
+  value_box(
+    title = "O'rtacha davomiylik",
+    value = paste(round(avg, 1), "daqiqa"),
+    showcase = bs_icon("clock-history"), theme = "secondary"
+  )
+})
+
+# 3. Interaktiv jadval uchun render
+renderDT({
+  datatable(
+    filtered_data(),
+    extensions = 'Buttons',
+    options = list(pageLength = 5, dom = 'Bfrtip', buttons = 'excel'),
+    colnames = c('ID' = 'id', 'Tuman' = 'district', 'Intervyuer', 'Vaqt' = 'sana')
+  )
+})
+
+# 4. Kunlik dinamika grafigi uchun render
+renderPlot({
+  daily_summary <- filtered_data() %>% count(sana, name = "soni")
+
+  ggplot(daily_summary, aes(x = sana, y = soni)) +
+    geom_col(fill = "#28B463") +
+    geom_text(aes(label = soni), vjust = -0.5) +
+    scale_x_date(date_labels = "%b %d") +
+    labs(title = "Kunlik so'rovnomalar soni", x = "Sana", y = "Soni") +
+    theme_minimal(base_size = 14)
+})
+
+
+tumanlar_listi <- c("Barcha tumanlar", unique(household_final$district))
+
+# Tuman tanlash uchun ochiladigan menyu
+selectInput(
+  "tuman_filter", 
+  label = "Tumanni tanlang:",
+  choices = tumanlar_listi,
+  selected = "Barcha tumanlar"
+)
+
+# Sana oralig'ini tanlash uchun kalendar
+dateRangeInput(
+  "sana_filter",
+  label = "Sana oralig'ini tanlang:",
+  start = min(household_final$sana),
+  end = max(household_final$sana),
+  language = "uz"
+)
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
