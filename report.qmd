@@ -227,26 +227,26 @@ household_with_duration %>%
 
 
 
-missing_geopoint_data <- household_clean %>%
-  
-  # 1. `is.na()` funksiyasi yordamida geopoint ustuni bo'sh (NA) bo'lgan qatorlarni filtrlaymiz
-  filter(is.na(`start-geopoint`)) %>%
-  
-  # 2. Kerakli ustunlarni tanlab olamiz
-  select(
-    `So'rovnoma ID` = `id`,
-    `Intervyuer ID` = Interviewer_id,
-    `Yuborilgan vaqt` = `_submission_time`
-  )
-
-# Natijani chiroyli jadval ko'rinishida chiqaramiz
-  # Agar geopozitsiyasi yo'q anketalar topilsa, jadvalni ko'rsatamiz
-  missing_geopoint_data %>%
-    gt() %>%
-    tab_header(
-      title = "Geopozitsiyasi yoqilmagan So'rovnomalar",
-      subtitle = "Ma'lumotlar sifatini tekshirish uchun"
-    )
+# missing_geopoint_data <- household_clean %>%
+#   
+#   # 1. `is.na()` funksiyasi yordamida geopoint ustuni bo'sh (NA) bo'lgan qatorlarni filtrlaymiz
+#   filter(is.na(`start-geopoint`)) %>%
+#   
+#   # 2. Kerakli ustunlarni tanlab olamiz
+#   select(
+#     `So'rovnoma ID` = `id`,
+#     `Intervyuer ID` = Interviewer_id,
+#     `Yuborilgan vaqt` = `_submission_time`
+#   )
+# 
+# # Natijani chiroyli jadval ko'rinishida chiqaramiz
+#   # Agar geopozitsiyasi yo'q anketalar topilsa, jadvalni ko'rsatamiz
+#   missing_geopoint_data %>%
+#     gt() %>%
+#     tab_header(
+#       title = "Geopozitsiyasi yoqilmagan So'rovnomalar",
+#       subtitle = "Ma'lumotlar sifatini tekshirish uchun"
+#     )
 
 ```
 
